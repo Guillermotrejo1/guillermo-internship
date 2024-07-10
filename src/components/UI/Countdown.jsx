@@ -23,7 +23,7 @@ const Countdown = ({ expiryDate }) => {
 
     if (millisLeft < 0) {
       clearInterval(idInterval);
-      setIdInterval("expired");
+      setIdInterval("Expired");
       return;
     }
 
