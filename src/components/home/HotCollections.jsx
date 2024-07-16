@@ -8,7 +8,7 @@ import Skeleton from "../UI/Skeleton";
 
 const HotCollections = () => {
   const [collections, setCollections] = useState([]);
-  const [skeleton, setSkeleton] = useState();
+  const [skeleton, setSkeleton] = useState(true);
 
   async function fetchData() {
     setSkeleton(true);

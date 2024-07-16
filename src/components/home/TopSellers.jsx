@@ -5,15 +5,15 @@ import Skeleton from "../UI/Skeleton";
 
 const TopSellers = () => {
   const [topSellers, setTopSellers] = useState([]);
-  const [skeleton, setSkeleton] = useState();
+  const [skeleton, setSkeleton] = useState(true);
 
   async function fetchSellers() {
     setSkeleton(true);
     const { data } = await axios.get(
       "https://us-central1-nft-cloud-functions.cloudfunctions.net/topSellers"
     );
-    setSkeleton(false);
     setTopSellers(data);
+    setSkeleton(false);
   }
 
   useEffect(() => {
