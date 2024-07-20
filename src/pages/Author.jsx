@@ -12,24 +12,24 @@ const Author = () => {
   const [nft, setNft] = useState([]);
   const { authorId } = useParams();
 
-  useEffect(() => {
-    async function fetchAuthor() {
-      try {
-        const { data } = await axios.get(
-          `https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?author=${authorId}`
-        );
-        setAuthor(data);
-        setNft(data.nftCollection);
-      } catch (error) {
-        console.error("couldn't load", error);
-      } finally {
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 2000);
-      }
+  async function fetchAuthor() {
+    try {
+      const { data } = await axios.get(
+        `https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?author=${authorId}`
+      );
+      setAuthor(data);
+      setNft(data.nftCollection);
+    } catch (error) {
+      console.error("couldn't load", error);
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
     }
+  }
+  useEffect(() => {
     fetchAuthor();
-  }, [authorId]);
+  }, []);
 
   return (
     <div id="wrapper">
