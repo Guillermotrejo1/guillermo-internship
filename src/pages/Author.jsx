@@ -8,17 +8,25 @@ import Skeleton from "../components/UI/Skeleton";
 
 const Author = () => {
   const [author, setAuthor] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [isloading, setIsLoading] = useState(false);
+  const [nft, setNft] = useState([]);
   const { authorId } = useParams();
 
-  
   useEffect(() => {
     async function fetchAuthor() {
-      const { data } = await axios.get(
-        `https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?author=${authorId}`
-      );
-      setAuthor(data);
-      setLoading(false);
+      try {
+        const { data } = await axios.get(
+          `https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?author=${authorId}`
+        );
+        setAuthor(data);
+        setNft(data.nftCollection);
+      } catch (error) {
+        console.error("couldn't load", error);
+      } finally {
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 2000);
+      }
     }
     fetchAuthor();
   }, [authorId]);
@@ -40,7 +48,7 @@ const Author = () => {
           <div className="container">
             <div className="row">
               <div className="col-md-12">
-                {loading ? (
+                {isloading ? (
                   <div className="d_profile de-flex">
                     <div className="de-flex-col">
                       <div className="profile_avatar">
@@ -77,7 +85,9 @@ const Author = () => {
                         <div className="profile_name">
                           <h4>
                             Monica Lucas
-                            <span className="profile_username">{author.tag}</span>
+                            <span className="profile_username">
+                              {author.tag}
+                            </span>
                             <span id="wallet" className="profile_wallet">
                               UDHUHWudhwd78wdt7edb32uidbwyuidhg7wUHIFUHWewiqdj87dy7
                             </span>
