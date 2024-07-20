@@ -8,7 +8,7 @@ import Skeleton from "../components/UI/Skeleton";
 
 const Author = () => {
   const [author, setAuthor] = useState([]);
-  const [skeleton, setSkeleton] = useState(true);
+  const [loading, setLoading] = useState(false);
   const { authorId } = useParams();
 
   
@@ -18,8 +18,7 @@ const Author = () => {
         `https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?author=${authorId}`
       );
       setAuthor(data);
-      setSkeleton(false);
-      console.log(data)
+      setLoading(false);
     }
     fetchAuthor();
   }, [authorId]);
@@ -41,7 +40,7 @@ const Author = () => {
           <div className="container">
             <div className="row">
               <div className="col-md-12">
-                {skeleton ? (
+                {loading ? (
                   <div className="d_profile de-flex">
                     <div className="de-flex-col">
                       <div className="profile_avatar">
