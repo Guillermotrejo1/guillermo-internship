@@ -2,35 +2,30 @@ import React, { useEffect, useState } from "react";
 import AuthorBanner from "../images/author_banner.jpg";
 import AuthorItems from "../components/author/AuthorItems";
 import { Link, useParams } from "react-router-dom";
-import AuthorImage from "../images/author_thumbnail.jpg";
 import axios from "axios";
 import Skeleton from "../components/UI/Skeleton";
 
 const Author = () => {
   const [author, setAuthor] = useState([]);
-  const [isloading, setIsLoading] = useState(false);
-  const [nft, setNft] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { authorId } = useParams();
+  const [follow, SetFollow] = useState(false);
 
   async function fetchAuthor() {
-    try {
-      const { data } = await axios.get(
-        `https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?author=${authorId}`
-      );
-      setAuthor(data);
-      setNft(data.nftCollection);
-    } catch (error) {
-      console.error("couldn't load", error);
-    } finally {
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 2000);
-    }
+    const { data } = await axios.get(
+      `https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?author=${authorId}`
+    );
+    setAuthor(data);
+    setIsLoading(false);
   }
+
+  function addFollow() {
+    SetFollow(!follow);
+  }
+
   useEffect(() => {
     fetchAuthor();
   }, []);
-
   return (
     <div id="wrapper">
       <div className="no-bottom no-top" id="content">
@@ -48,21 +43,20 @@ const Author = () => {
           <div className="container">
             <div className="row">
               <div className="col-md-12">
-                {isloading ? (
+                {isLoading ? (
                   <div className="d_profile de-flex">
                     <div className="de-flex-col">
                       <div className="profile_avatar">
                         <Skeleton borderRadius={100} height={150} width={150} />
-
                         <i className="fa fa-check"></i>
                         <div className="profile_name">
                           <h4>
                             <Skeleton height={24} width={200} />
                             <span className="profile_username">
-                              <Skeleton height={16} width={100} />
+                              <Skeleton height={18} width={100} />
                             </span>
                             <span id="wallet" className="profile_wallet">
-                              <Skeleton height={16} width={250} />
+                              <Skeleton height={18} width={250} />
                             </span>
                           </h4>
                         </div>
@@ -70,8 +64,9 @@ const Author = () => {
                     </div>
                     <div className="profile_follow de-flex">
                       <div className="de-flex-col">
-                        <div className="profile_follower">573 followers</div>
-                        <Skeleton height={40} width={150} />
+                        <div className="profile_follower">
+                          <Skeleton height={40} width={150} />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -84,12 +79,12 @@ const Author = () => {
                         <i className="fa fa-check"></i>
                         <div className="profile_name">
                           <h4>
-                            Monica Lucas
+                            {author.authorName}
                             <span className="profile_username">
-                              {author.tag}
+                              @{author.tag}
                             </span>
                             <span id="wallet" className="profile_wallet">
-                              UDHUHWudhwd78wdt7edb32uidbwyuidhg7wUHIFUHWewiqdj87dy7
+                              {author.address}
                             </span>
                             <button id="btn_copy" title="Copy Text">
                               Copy
@@ -100,9 +95,11 @@ const Author = () => {
                     </div>
                     <div className="profile_follow de-flex">
                       <div className="de-flex-col">
-                        <div className="profile_follower">573 followers</div>
-                        <Link to="#" className="btn-main">
-                          Follow
+                        <div className="profile_follower">
+                          {author.followers + (follow ? 1 : 0)} followers
+                        </div>
+                        <Link to="#" className="btn-main" onClick={addFollow}>
+                          {follow ? "Unfollow" : "Follow"}
                         </Link>
                       </div>
                     </div>
