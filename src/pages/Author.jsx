@@ -26,6 +26,7 @@ const Author = () => {
   useEffect(() => {
     fetchAuthor();
   }, []);
+
   return (
     <div id="wrapper">
       <div className="no-bottom no-top" id="content">
@@ -109,7 +110,7 @@ const Author = () => {
 
               <div className="col-md-12">
                 <div className="de_tab tab_simple">
-                  <AuthorItems />
+                  <AuthorItems author={author} isLoading={isLoading} />
                 </div>
               </div>
             </div>
