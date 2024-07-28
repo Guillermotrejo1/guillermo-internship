@@ -5,15 +5,14 @@ import Skeleton from "../UI/Skeleton";
 
 const TopSellers = () => {
   const [topSellers, setTopSellers] = useState([]);
-  const [skeleton, setSkeleton] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   async function fetchSellers() {
-    setSkeleton(true);
     const { data } = await axios.get(
       "https://us-central1-nft-cloud-functions.cloudfunctions.net/topSellers"
     );
     setTopSellers(data);
-    setSkeleton(false);
+    setIsLoading(false);
   }
 
   useEffect(() => {
@@ -32,7 +31,7 @@ const TopSellers = () => {
           </div>
           <div className="col-md-12">
             <ol className="author_list">
-              {skeleton
+              {isLoading
                 ? new Array(12).fill(0).map((_, index) => (
                     <li key={index}>
                       <div className="author_list_pp">

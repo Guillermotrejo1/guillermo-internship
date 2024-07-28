@@ -9,15 +9,14 @@ import Countdown from "../UI/Countdown";
 
 const NewItems = () => {
   const [newItems, setNewItems] = useState([]);
-  const [skeleton, setSkeleton] = useState();
+  const [isLoading, setIsLoading] = useState();
 
   async function fetchItems() {
-    setSkeleton(true);
     const { data } = await axios.get(
       "https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems"
     );
     setNewItems(data);
-    setSkeleton(false);
+    setIsLoading(false);
   }
 
   useEffect(() => {
@@ -34,7 +33,7 @@ const NewItems = () => {
               <div className="small-border bg-color-2"></div>
             </div>
           </div>
-          {skeleton ? (
+          {isLoading ? (
             new Array(1).fill(0).map((index) => (
               <OwlCarousel
                 loop
@@ -150,7 +149,7 @@ const NewItems = () => {
                         </div>
                       </div>
 
-                      <Link to="/item-details">
+                      <Link to={`/item-details/${collections.nftId}`}>
                         <img
                           src={collections.nftImage}
                           className="lazy nft__item_preview"
@@ -159,7 +158,7 @@ const NewItems = () => {
                       </Link>
                     </div>
                     <div className="nft__item_info">
-                      <Link to="/item-details">
+                      <Link to={`/item-details/${collections.nftId}`}>
                         <h4>{collections.title}</h4>
                       </Link>
                       <div className="nft__item_price">

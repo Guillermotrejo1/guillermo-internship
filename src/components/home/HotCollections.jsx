@@ -8,15 +8,14 @@ import Skeleton from "../UI/Skeleton";
 
 const HotCollections = () => {
   const [collections, setCollections] = useState([]);
-  const [skeleton, setSkeleton] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   async function fetchData() {
-    setSkeleton(true);
     const { data } = await axios.get(
       "https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections"
     );
     setCollections(data);
-    setSkeleton(false);
+    setIsLoading(false);
   }
 
   useEffect(() => {
@@ -33,7 +32,7 @@ const HotCollections = () => {
               <div className="small-border bg-color-2"></div>
             </div>
           </div>
-          {skeleton ? (
+          {isLoading ? (
             new Array(1).fill(0).map((index) => (
               <OwlCarousel loop items={4} nav dots={false} key={index}>
                 <div className="nft_coll">

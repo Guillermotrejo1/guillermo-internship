@@ -7,7 +7,7 @@ import LoadMore from "../UI/LoadMore";
 
 const ExploreItems = () => {
   const [item, setItem] = useState([]);
-  const [skeleton, setSkeleton] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedValue, setSelectedValue] = useState("");
 
   async function fetchExplored() {
@@ -15,7 +15,7 @@ const ExploreItems = () => {
       `https://us-central1-nft-cloud-functions.cloudfunctions.net/explore?filter=${selectedValue}`
     );
     setItem(data);
-    setSkeleton(false);
+    setIsLoading(false);
   }
   const loadMoreCount = 4;
 
@@ -41,7 +41,7 @@ const ExploreItems = () => {
           <option value="likes_high_to_low">Most liked</option>
         </select>
       </div>
-      {skeleton
+      {isLoading
         ? new Array(8).fill(0).map((_, index) => (
             <div
               key={index}
@@ -97,7 +97,7 @@ const ExploreItems = () => {
                       </div>
                     </div>
                   </div>
-                  <Link to="/item-details">
+                  <Link to={`/item-details/${collections.nftId}`}>
                     <img
                       src={collections.nftImage}
                       className="lazy nft__item_preview"
@@ -106,7 +106,7 @@ const ExploreItems = () => {
                   </Link>
                 </div>
                 <div className="nft__item_info">
-                  <Link to="/item-details">
+                  <Link to={`/item-details/${collections.nftId}`}>
                     <h4>{collections.title}</h4>
                   </Link>
                   <div className="nft__item_price">{collections.price} ETH</div>
