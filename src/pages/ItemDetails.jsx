@@ -14,6 +14,7 @@ const ItemDetails = () => {
       `https://us-central1-nft-cloud-functions.cloudfunctions.net/itemDetails?nftId=${nftId}`
     );
     setItem(data);
+    console.log(data)
     setIsLoading(false);
   }
   useEffect(() => {
