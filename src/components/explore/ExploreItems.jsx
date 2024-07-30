@@ -4,6 +4,7 @@ import axios from "axios";
 import Skeleton from "../UI/Skeleton";
 import Countdown from "../UI/Countdown";
 import LoadMore from "../UI/LoadMore";
+import AOS from "aos";
 
 const ExploreItems = () => {
   const [item, setItem] = useState([]);
@@ -22,6 +23,11 @@ const ExploreItems = () => {
   const { numberItems, loadMoreItems } = LoadMore(loadMoreCount);
 
   const itemsDisplayed = numberItems + 8;
+
+  useEffect(() => {
+    AOS.init();
+    AOS.refresh();
+  }, [item]);
 
   useEffect(() => {
     fetchExplored(selectedValue);
