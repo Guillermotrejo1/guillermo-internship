@@ -4,7 +4,7 @@ import Skeleton from "../UI/Skeleton";
 
 const AuthorItems = ({ author, isLoading }) => {
   return (
-    <div className="de_tab_content">
+    <div className="de_tab_content" data-aos="fade-in">
       <div className="tab-1">
         <div className="row">
           {isLoading
